@@ -4,6 +4,7 @@ class CreateNodes < ActiveRecord::Migration[5.2]
       t.string :modelName
       t.string :manufacterName
       t.string :description
+      t.string :unique_id
       t.boolean :status, default: false
       t.integer :group_id
 
