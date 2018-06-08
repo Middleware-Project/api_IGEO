@@ -1,5 +1,6 @@
 class Api::V2::NodesController < ApplicationController
-  before_action :set_node, only: [:show, :destroy]
+  before_action :set_node, only: [:destroy]
+  before_action :set_noded, only: [:show]
 
   # GET /api/v2/nodes
   def index
@@ -18,14 +19,14 @@ class Api::V2::NodesController < ApplicationController
 
   # GET /api/v2/nodes/1
   def show
-    if @node.nil?
-      render status: 404, json: {error: {status: 404, message: "No se encuentra nodo con id=#{params[:id]}"}}.to_json
+    if @nodes.empty?
+      render status: 404, json: {error: {status: 404, message: "El grupo con id=#{params[:id]} no tiene nodos asociados"}}.to_json
     else
-      info = {
-          'node': @node,
-          'sensors': @node.sensors
-      }
-      render status: 200, json: {succes: {status: 200}, data: info}.to_json
+      array = []
+      @nodes.each do |node|
+        array.push({'node': node,'sensors': node.sensors})
+      end
+      render status: 200, json: {succes: {status: 200}, data: array}.to_json
     end
   end
 
@@ -59,6 +60,10 @@ class Api::V2::NodesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_node
       @node = Node.find_by_id(params[:id])
+    end
+
+    def set_nodes
+      @nodes = Node.where(:group_id => params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
