@@ -1,6 +1,6 @@
 class Api::V2::NodesController < ApplicationController
   before_action :set_node, only: [:destroy]
-  before_action :set_noded, only: [:show]
+  before_action :set_nodes, only: [:show]
 
   # GET /api/v2/nodes
   def index
