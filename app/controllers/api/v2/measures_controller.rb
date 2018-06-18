@@ -1,16 +1,23 @@
 class Api::V2::MeasuresController < ApplicationController
   before_action :set_measure, only: [:show, :destroy]
 
-  # GET /api/v2/measures
+  # Todas las medidas del grupo
+  # GET /api/v2/measures?=node_id=1&sensor_id=1
   def index
-    @measures = Measure.all
+    if params[:limit] != nil
+      @measures = Measure.where(:node => params[:node_id],:sensor => params[:sensor_id]).limit(params[:limit])
+    else
+      @measures = Measure.where(:node => params[:node_id],:sensor => params[:sensor_id])
+    end
+    
     if @measures.blank?
-      render status: 200, json: {succes: {status: 200, message: 'No existen mediciones creadas'}, data: @measures}.to_json
+      render status: 200, json: {succes: {status: 200, message: 'No existen mediciones asociadas'}, data: @measures}.to_json
     else
       render status: 200, json: {succes: {status: 200}, data: @measures}.to_json
     end
   end
 
+  # Todas las medidas por nodo
   # GET /api/v2/measures/1
   def show
     if @measure.nil?
@@ -56,6 +63,6 @@ class Api::V2::MeasuresController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def measure_params
-      params.fetch(:measure, {})
+      params.require(:measure).permit(:node_id, :sensor_id)
     end
 end
