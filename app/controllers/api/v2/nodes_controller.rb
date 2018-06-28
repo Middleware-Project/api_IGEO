@@ -32,7 +32,7 @@ class Api::V2::NodesController < ApplicationController
 
   # POST /api/v2/nodes
   def create
-    @node = Node.new(:modelName => params[:modelName], :manufacterName => params[:manufacterName], :description => params[:description],:group_id => params[:group_id])
+    @node = Node.new(:modelName => params[:modelName], :manufacterName => params[:manufacterName], :description => params[:description],:group_id => params[:group_id],:node_type => params[:node_type])
     params[:sensors].each do |item|
       sensor = Sensor.find_by_id(item[:id])
       if sensor.nil?

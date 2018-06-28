@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_26_183015) do
+ActiveRecord::Schema.define(version: 2018_06_28_185312) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2018_06_26_183015) do
     t.bigint "sensor_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "sensor_name"
     t.index ["node_id"], name: "index_measures_on_node_id"
     t.index ["sensor_id"], name: "index_measures_on_sensor_id"
   end

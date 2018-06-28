@@ -40,7 +40,7 @@ class Api::V2::MeasuresController < ApplicationController
     if @node.nil? || @sensor.nil?
       render status: 404, json: {error: {status: 404, message: "No se encuentra nodo con id=#{params[:node_id]}"}}.to_json
     else
-      @measure = Measure.new(:data => params[:data], :unit => params[:unit],:node => @node,:sensor => @sensor)
+      @measure = Measure.new(:data => params[:data], :unit => params[:unit],:node => @node,:sensor => @sensor,:sensor_name => @sensor.name)
       if @measure.save
         render json: @measure, status: :created
       else
