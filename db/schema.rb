@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 2018_06_28_185312) do
     t.string "modelName"
     t.string "manufacterName"
     t.string "description"
+    t.string "unique_id"
     t.boolean "status", default: false
     t.integer "group_id"
     t.datetime "created_at", null: false

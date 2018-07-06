@@ -51,15 +51,24 @@ class Api::V2::NodesController < ApplicationController
 
   # DELETE /api/v2/nodes/1
   def destroy
-    sensors = @node.sensors
-    @node.sensors.delete(sensors)
-    @node.destroy
+    if @node != nil
+      sensors = @node.sensors
+      @node.sensors.delete(sensors)
+      @measures = Measure.where(:node => @node)
+      @measures.each do |measure|
+        measure.destroy
+      end
+      @node.destroy
+      render status: 200, json: {succes: {status: 200, message: 'Nodo eliminado'}, data: @node}.to_json
+    else
+      render status: 404, json: {error: {status: 404, message: "El nodo con id=#{params[:id]} no existe"}}.to_json
+    end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_node
-      @node = Node.find_by_id(params[:id])
+      @node = Node.find_by_id(:group_id => params[:id])
     end
 
     def set_nodes
