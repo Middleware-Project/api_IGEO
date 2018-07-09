@@ -68,7 +68,7 @@ class Api::V2::NodesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_node
-      @node = Node.find_by_id(:group_id => params[:id])
+      @node = Node.find_by_group_id(params[:id])
     end
 
     def set_nodes
